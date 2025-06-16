@@ -37,7 +37,16 @@ import {
   FaMicroscope,
   FaChevronLeft,
   FaChevronRight,
-  FaEnvelope
+  FaEnvelope,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope as FaEmail,
+  FaExpand
 } from "react-icons/fa";
 import { MdLocalHospital } from "react-icons/md";
 import axios from "axios";
@@ -57,10 +66,16 @@ import p5 from "../assets/p5.jpg";
 import person from "../assets/person.jpg";
 import promise from "../assets/promise.jpg";
 import footer from "../assets/footer.svg";
+import main_large from "../assets/main_large.png";
+import asterapp from "../assets/asterapp.jpg";
+import play_store from "../assets/play_store.svg";
+import apple_store from "../assets/apple_store.svg";
+import iconimage1 from "../assets/iconimage1.png";
 
 function HomePage({ language }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [qrCodeOpen, setQrCodeOpen] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState(""); // Added email state
@@ -102,6 +117,18 @@ function HomePage({ language }) {
       email: "البريد الإلكتروني", // Added email label in Arabic
       submit: "احجز الآن",
       copyright: "جميع الحقوق محفوظة - مجموعة أستر سند",
+      // Footer content
+      medicalSpecialties: "التخصصات الطبية",
+      patientServices: "خدمات المرضى",
+      facilities: "التسهيلات",
+      appPromotion: "حمل تطبيق أستر",
+      appDescription: "احجز مواعيدك واستشاراتك الطبية بسهولة من خلال تطبيق أستر المتطور",
+      downloadApp: "حمل التطبيق الآن",
+      contactInfo: "معلومات الاتصال",
+      address: "الرياض، المملكة العربية السعودية",
+      phoneNumber: "920004417",
+      emailAddress: "info@asterhospital.com",
+      followUs: "تابعنا على",
       specialties: [
         { name: "أمراض النساء والتوليد", icon: <FaBaby />, color: "#FF6B9D" },
         { name: "الجلدية", icon: <FaUser />, color: "#4ECDC4" },
@@ -115,6 +142,22 @@ function HomePage({ language }) {
         { name: "جراحة الأعصاب", icon: <FaBrain />, color: "#85C1E9" },
         { name: "طب الأسنان", icon: <FaTooth />, color: "#F8C471" },
         { name: "علم الأمراض", icon: <FaMicroscope />, color: "#82E0AA" }
+      ],
+      patientServicesList: [
+        "حجز المواعيد",
+        "الاستشارات الطبية",
+        "الفحوصات المخبرية",
+        "الأشعة التشخيصية",
+        "العمليات الجراحية",
+        "الرعاية المنزلية"
+      ],
+      facilitiesList: [
+        "غرف العمليات المتطورة",
+        "وحدة العناية المركزة",
+        "قسم الطوارئ",
+        "المختبرات الطبية",
+        "قسم الأشعة",
+        "الصيدلية"
       ]
     },
     EN: {
@@ -136,6 +179,18 @@ function HomePage({ language }) {
       email: "Email Address", // Added email label in English
       submit: "Book Now",
       copyright: "All Rights Reserved - Aster Sanad Group",
+      // Footer content
+      medicalSpecialties: "Medical Specialties",
+      patientServices: "Patient Services",
+      facilities: "Facilities",
+      appPromotion: "Download Aster App",
+      appDescription: "Book your appointments and medical consultations easily through the advanced Aster app",
+      downloadApp: "Download App Now",
+      contactInfo: "Contact Information",
+      address: "Riyadh, Saudi Arabia",
+      phoneNumber: "920004417",
+      emailAddress: "info@asterhospital.com",
+      followUs: "Follow Us",
       specialties: [
         { name: "Obstetrics & Gynecology", icon: <FaBaby />, color: "#FF6B9D" },
         { name: "Dermatology", icon: <FaUser />, color: "#4ECDC4" },
@@ -149,6 +204,22 @@ function HomePage({ language }) {
         { name: "Neurosurgery", icon: <FaBrain />, color: "#85C1E9" },
         { name: "Dentistry", icon: <FaTooth />, color: "#F8C471" },
         { name: "Pathology", icon: <FaMicroscope />, color: "#82E0AA" }
+      ],
+      patientServicesList: [
+        "Appointment Booking",
+        "Medical Consultations",
+        "Laboratory Tests",
+        "Diagnostic Imaging",
+        "Surgical Procedures",
+        "Home Care Services"
+      ],
+      facilitiesList: [
+        "Advanced Operating Rooms",
+        "Intensive Care Unit",
+        "Emergency Department",
+        "Medical Laboratories",
+        "Radiology Department",
+        "Pharmacy"
       ]
     }
   };
@@ -307,7 +378,7 @@ function HomePage({ language }) {
                 sx={{
                   borderRadius: '25px',
                   px: { xs: 3, sm: 4, md: 4 },
-                                    py: { xs: 1.5, sm: 2, md: 2 },
+                  py: { xs: 1.5, sm: 2, md: 2 },
                   background: 'linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)',
                   fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.9rem' },
                   fontWeight: 500,
@@ -679,7 +750,7 @@ function HomePage({ language }) {
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               color: 'transparent',
-                         px: { xs: 1, sm: 0 },
+              px: { xs: 1, sm: 0 },
               lineHeight: { xs: 1.2, sm: 1.3 }
             }}
           >
@@ -849,8 +920,9 @@ function HomePage({ language }) {
       {/* Footer */}
       <Box sx={{ 
         background: '#0a0e1a', 
-        py: { xs: 3, sm: 4, md: 4 },
-        width: '100%'
+        py: { xs: 4, sm: 5, md: 6 },
+        width: '100%',
+        borderTop: '1px solid rgba(100, 181, 246, 0.1)'
       }}>
         <Container maxWidth="lg" sx={{ 
           px: { xs: 2, sm: 3, md: 3 }
@@ -861,37 +933,417 @@ function HomePage({ language }) {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <Grid container spacing={{ xs: 2, sm: 3, md: 3 }} alignItems="center">
-              <Grid item xs={12} md={4}>
-                <motion.div variants={fadeInUp}>
-                  <Box sx={{
-                    width: '100%',
-                    height: { xs: '60px', sm: '70px', md: '80px' },
-                    backgroundImage: `url(${footer})`,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'left center',
-                    mb: { xs: 2, md: 0 }
-                  }} />
-                </motion.div>
-              </Grid>
-              <Grid item xs={12} md={8}>
+            <Grid container spacing={{ xs: 3, sm: 4, md: 4 }}>
+              {/* Medical Specialties */}
+              <Grid item xs={12} md={3} order={{ xs: 1, md: 1 }}>
                 <motion.div variants={fadeInUp}>
                   <Typography
-                    variant="body1"
+                    variant="h6"
                     sx={{
+                      fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                      fontWeight: 600,
+                      mb: { xs: 2, sm: 2.5, md: 3 },
                       color: '#64b5f6',
-                      fontWeight: 400,
-                      textAlign: 'right',
-                      fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
-                      px: { xs: 1, sm: 0 }
+                      textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' }
                     }}
                   >
-                    {currentContent.copyright}
+                    {currentContent.medicalSpecialties}
                   </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    {currentContent.specialties.slice(0, 6).map((specialty, index) => (
+                      <Typography
+                        key={index}
+                        variant="body2"
+                        sx={{
+                          fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                          color: '#b3e5fc',
+                          textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' },
+                          cursor: 'pointer',
+                          transition: 'color 0.3s ease',
+                          '&:hover': {
+                            color: '#64b5f6'
+                          }
+                        }}
+                      >
+                        {specialty.name}
+                      </Typography>
+                    ))}
+                  </Box>
+                </motion.div>
+              </Grid>
+
+              {/* Patient Services */}
+              <Grid item xs={12} md={3} order={{ xs: 2, md: 2 }}>
+                <motion.div variants={fadeInUp}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                      fontWeight: 600,
+                      mb: { xs: 2, sm: 2.5, md: 3 },
+                      color: '#64b5f6',
+                      textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' }
+                    }}
+                  >
+                    {currentContent.patientServices}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    {currentContent.patientServicesList.map((service, index) => (
+                      <Typography
+                        key={index}
+                        variant="body2"
+                        sx={{
+                          fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                          color: '#b3e5fc',
+                          textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' },
+                          cursor: 'pointer',
+                          transition: 'color 0.3s ease',
+                          '&:hover': {
+                            color: '#64b5f6'
+                          }
+                        }}
+                      >
+                        {service}
+                      </Typography>
+                    ))}
+                  </Box>
+                </motion.div>
+              </Grid>
+
+              {/* Facilities */}
+              <Grid item xs={12} md={3} order={{ xs: 3, md: 3 }}>
+                <motion.div variants={fadeInUp}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                      fontWeight: 600,
+                      mb: { xs: 2, sm: 2.5, md: 3 },
+                      color: '#64b5f6',
+                      textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' }
+                    }}
+                  >
+                    {currentContent.facilities}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    {currentContent.facilitiesList.map((facility, index) => (
+                      <Typography
+                        key={index}
+                        variant="body2"
+                        sx={{
+                          fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                          color: '#b3e5fc',
+                          textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' },
+                          cursor: 'pointer',
+                          transition: 'color 0.3s ease',
+                          '&:hover': {
+                            color: '#64b5f6'
+                          }
+                        }}
+                      >
+                        {facility}
+                      </Typography>
+                    ))}
+                  </Box>
+                </motion.div>
+              </Grid>
+
+              {/* App Promotion */}
+              <Grid item xs={12} md={3} order={{ xs: 4, md: 4 }}>
+                <motion.div variants={fadeInUp}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                      fontWeight: 600,
+                      mb: { xs: 2, sm: 2.5, md: 3 },
+                      color: '#64b5f6',
+                      textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' }
+                    }}
+                  >
+                    {currentContent.appPromotion}
+                  </Typography>
+                  
+                  {/* App Logo */}
+                  <Box sx={{ 
+                    mb: 2, 
+                    display: 'flex', 
+                    justifyContent: { xs: 'center', md: 'flex-start' }
+                  }}>
+                    <img
+                      src={asterapp}
+                      alt="Aster App"
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 15px rgba(100, 181, 246, 0.3)'
+                      }}
+                    />
+                  </Box>
+
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                      color: '#b3e5fc',
+                      mb: 3,
+                      textAlign: { xs: 'center', md: language === "AR" ? 'right' : 'left' },
+                      lineHeight: 1.5
+                    }}
+                  >
+                    {currentContent.appDescription}
+                  </Typography>
+
+                  {/* QR Code with Click Handler */}
+                  <Box sx={{ 
+                    mb: 3, 
+                    display: 'flex', 
+                    justifyContent: { xs: 'center', md: 'flex-start' }
+                  }}>
+                    <Box
+                      onClick={() => setQrCodeOpen(true)}
+                      sx={{
+                        position: 'relative',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'scale(1.05)'
+                        }
+                      }}
+                    >
+                      <img
+                        src={main_large}
+                        alt="QR Code"
+                        style={{
+                          width: '120px',
+                          height: '120px',
+                          borderRadius: '8px',
+                          background: '#ffffff',
+                          padding: '8px'
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          opacity: 0,
+                          transition: 'opacity 0.3s ease',
+                          color: '#1976d2',
+                          fontSize: '20px',
+                          background: 'rgba(255, 255, 255, 0.9)',
+                          borderRadius: '50%',
+                          width: '35px',
+                          height: '35px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          '&:hover': {
+                            opacity: 1
+                          }
+                        }}
+                      >
+                        <FaExpand />
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  {/* Download Buttons */}
+                  <Box sx={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: 1.5,
+                    alignItems: { xs: 'center', md: 'flex-start' }
+                  }}>
+                    <Box
+                      component="a"
+                      href="https://play.google.com/store/apps/details?id=com.aster.virtualcare.patient"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        display: 'block',
+                        transition: 'transform 0.3s ease',
+                        '&:hover': {
+                          transform: 'scale(1.05)'
+                        }
+                      }}
+                    >
+                      <img
+                        src={play_store}
+                        alt="Download from Play Store"
+                        style={{
+                          width: '140px',
+                          height: 'auto',
+                          cursor: 'pointer'
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      component="a"
+                      href="https://apps.apple.com/sa/app/myaster/id1562991616"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        display: 'block',
+                        transition: 'transform 0.3s ease',
+                        '&:hover': {
+                          transform: 'scale(1.05)'
+                        }
+                      }}
+                    >
+                      <img
+                        src={apple_store}
+                        alt="Download from App Store"
+                        style={{
+                          width: '140px',
+                          height: 'auto',
+                          cursor: 'pointer'
+                        }}
+                      />
+                    </Box>
+                  </Box>
                 </motion.div>
               </Grid>
             </Grid>
+
+            {/* Bottom Section */}
+            <Box sx={{ 
+              mt: { xs: 4, sm: 5, md: 6 }, 
+              pt: { xs: 3, sm: 4, md: 4 }, 
+              borderTop: '1px solid rgba(100, 181, 246, 0.1)' 
+            }}>
+              <Grid container spacing={{ xs: 2, sm: 3, md: 3 }} alignItems="center">
+                {/* Logo */}
+                <Grid item xs={12} md={4}>
+                  <motion.div variants={fadeInUp}>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: { xs: 'center', md: 'flex-start' },
+                      mb: { xs: 2, md: 0 }
+                    }}>
+                      <img
+                        src={footer}
+                        alt="Aster Hospital Logo"
+                        style={{
+                          height: '60px',
+                          width: 'auto'
+                        }}
+                      />
+                    </Box>
+                  </motion.div>
+                </Grid>
+
+                {/* Contact Info */}
+                <Grid item xs={12} md={4}>
+                  <motion.div variants={fadeInUp}>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                          fontWeight: 600,
+                          mb: 1.5,
+                          color: '#64b5f6'
+                        }}
+                      >
+                        {currentContent.contactInfo}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <FaMapMarkerAlt style={{ color: '#64b5f6', fontSize: '14px' }} />
+                          <Typography variant="body2" sx={{ color: '#b3e5fc', fontSize: '0.85rem' }}>
+                            {currentContent.address}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <FaPhone style={{ color: '#64b5f6', fontSize: '14px' }} />
+                          <Typography variant="body2" sx={{ color: '#b3e5fc', fontSize: '0.85rem' }}>
+                            {currentContent.phoneNumber}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <FaEmail style={{ color: '#64b5f6', fontSize: '14px' }} />
+                          <Typography variant="body2" sx={{ color: '#b3e5fc', fontSize: '0.85rem' }}>
+                            {currentContent.emailAddress}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                </Grid>
+
+                {/* Social Media & Copyright */}
+                <Grid item xs={12} md={4}>
+                  <motion.div variants={fadeInUp}>
+                    <Box sx={{ textAlign: { xs: 'center', md: 'center' } }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                          fontWeight: 600,
+                          mb: 1.5,
+                          color: '#64b5f6'
+                        }}
+                      >
+                        {currentContent.followUs}
+                      </Typography>
+                      <Box sx={{ 
+                        display: 'flex', 
+                        gap: 2, 
+                        justifyContent: 'center',
+                        mb: 2
+                      }}>
+                        {[
+                          { icon: <FaFacebook />, color: '#1877f2' },
+                          { icon: <FaTwitter />, color: '#1da1f2' },
+                          { icon: <FaInstagram />, color: '#e4405f' },
+                          { icon: <FaLinkedin />, color: '#0077b5' },
+                          { icon: <FaYoutube />, color: '#ff0000' }
+                        ].map((social, index) => (
+                          <Box
+                            key={index}
+                            sx={{
+                              width: 35,
+                              height: 35,
+                              borderRadius: '50%',
+                              background: `linear-gradient(45deg, ${social.color}20 30%, ${social.color}40 90%)`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              transition: 'all 0.3s ease',
+                              border: `1px solid ${social.color}40`,
+                              '&:hover': {
+                                transform: 'translateY(-2px)',
+                                boxShadow: `0 8px 20px ${social.color}40`,
+                                background: `linear-gradient(45deg, ${social.color}40 30%, ${social.color}60 90%)`,
+                              }
+                            }}
+                          >
+                            <Box sx={{ color: social.color, fontSize: '16px' }}>
+                              {social.icon}
+                            </Box>
+                          </Box>
+                        ))}
+                      </Box>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: '#64b5f6',
+                          fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                          fontWeight: 400,
+                          textAlign: 'center'
+                        }}
+                      >
+                        {currentContent.copyright}
+                      </Typography>
+                    </Box>
+                  </motion.div>
+                </Grid>
+              </Grid>
+            </Box>
           </motion.div>
         </Container>
       </Box>
@@ -1022,7 +1474,7 @@ function HomePage({ language }) {
                 py: { xs: 1.2, sm: 1.5 },
                 borderRadius: '12px',
                 background: 'linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)',
-                                fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                fontSize: { xs: '0.85rem', sm: '0.9rem' },
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': {
@@ -1038,6 +1490,103 @@ function HomePage({ language }) {
               }} />
               {currentContent.submit}
             </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
+
+      {/* QR Code Modal */}
+      <Dialog
+        open={qrCodeOpen}
+        onClose={() => setQrCodeOpen(false)}
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(0,0,0,0.9)',
+            boxShadow: 'none',
+            borderRadius: 0,
+            maxWidth: 'none',
+            maxHeight: 'none',
+            margin: 0,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }
+        }}
+        fullScreen={true}
+      >
+        <DialogContent sx={{ 
+          p: 0, 
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <IconButton
+            onClick={() => setQrCodeOpen(false)}
+            sx={{
+              position: 'absolute',
+              top: { xs: 15, sm: 25 },
+              right: { xs: 15, sm: 25 },
+              color: '#ffffff',
+              backgroundColor: 'rgba(0,0,0,0.7)',
+              zIndex: 1000,
+              width: { xs: 40, sm: 50 },
+              height: { xs: 40, sm: 50 },
+              '&:hover': { 
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                transform: 'scale(1.1)'
+              }
+            }}
+          >
+            <FaTimes size={20} />
+          </IconButton>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 3,
+              p: 2
+            }}
+          >
+            <img
+              src={main_large}
+              alt="QR Code - Download Aster App"
+              style={{
+                width: '300px',
+                height: '300px',
+                borderRadius: '15px',
+                background: '#ffffff',
+                padding: '20px',
+                boxShadow: '0 10px 30px rgba(100, 181, 246, 0.3)'
+              }}
+            />
+            <Typography
+              variant="h5"
+              sx={{
+                color: '#ffffff',
+                textAlign: 'center',
+                fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                fontWeight: 600
+              }}
+            >
+              {language === "AR" ? "امسح الكود لتحميل التطبيق" : "Scan QR Code to Download App"}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#b3e5fc',
+                textAlign: 'center',
+                fontSize: { xs: '0.9rem', sm: '1rem' },
+                maxWidth: '400px'
+              }}
+            >
+              {currentContent.appDescription}
+            </Typography>
           </Box>
         </DialogContent>
       </Dialog>
@@ -1146,6 +1695,3 @@ function HomePage({ language }) {
 }
 
 export default HomePage;
-
-
-
