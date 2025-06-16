@@ -14,6 +14,7 @@ import {
 import { FaPhoneAlt, FaTimes, FaEnvelope, FaStethoscope } from "react-icons/fa";
 import { Stethoscope, Heart, Users } from "lucide-react";
 import footer from "../assets/footer.svg";
+import axios from "axios";
 
 function BookingPage({language}) {
   const [name, setName] = useState("");
@@ -51,6 +52,24 @@ function BookingPage({language}) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (name && phone && email) {
+      const data = {
+        Name: name,
+        Phone: phone,
+        Email: email,
+        Date: new Date().toLocaleString('en-US')
+      }
+
+
+      const sheetResponse =  axios.post(
+        "https://sheetdb.io/api/v1/noi1dx1gomu6o",
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
       const templateParams = {
         from_name: name,
         message: `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nDate: ${new Date().toLocaleString()}`

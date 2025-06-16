@@ -40,6 +40,7 @@ import {
   FaEnvelope
 } from "react-icons/fa";
 import { MdLocalHospital } from "react-icons/md";
+import axios from "axios";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -173,6 +174,21 @@ function HomePage({ language }) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (name && phone && email) { // Added email validation
+      const data = {
+        Name: name,
+        Phone: phone,
+        Email: email,
+        Date: new Date().toLocaleString('en-US')
+      }
+            const sheetResponse =  axios.post(
+              "https://sheetdb.io/api/v1/noi1dx1gomu6o",
+              data,
+              {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
       const templateParams = {
         from_name: name,
         message: `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nDate: ${new Date().toLocaleString()}` // Added email to message
