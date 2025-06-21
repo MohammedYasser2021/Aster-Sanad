@@ -221,25 +221,32 @@ function BookingPage({language}) {
                 onChange={(e) => setName(e.target.value)}
                 dir={language === "AR" ? "rtl" : "ltr"}
               />
-              <TextField
-                label={currentContent.phone}
-                variant="outlined"
-                fullWidth
-                sx={{ 
-                  mb: 3,
-                  '& .MuiOutlinedInput-root': {
-                    color: '#ffffff',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    '& fieldset': { borderColor: 'rgba(100, 181, 246, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(100, 181, 246, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#64b5f6' },
-                  },
-                  '& .MuiInputLabel-root': { color: '#b3e5fc' },
-                }}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                dir={language === "AR" ? "rtl" : "ltr"}
-              />
+<TextField
+  label={currentContent.phone}
+  variant="outlined"
+  fullWidth
+  type="tel"
+  inputMode="numeric"
+  pattern="[0-9]*"
+  sx={{ 
+    mb: 3,
+    '& .MuiOutlinedInput-root': {
+      color: '#ffffff',
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      '& fieldset': { borderColor: 'rgba(100, 181, 246, 0.3)' },
+      '&:hover fieldset': { borderColor: 'rgba(100, 181, 246, 0.5)' },
+      '&.Mui-focused fieldset': { borderColor: '#64b5f6' },
+    },
+    '& .MuiInputLabel-root': { color: '#b3e5fc' },
+  }}
+  value={phone}
+  onChange={(e) => {
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    setPhone(value);
+  }}
+  dir={language === "AR" ? "rtl" : "ltr"}
+/>
+
               <TextField
                 label={currentContent.email}
                 variant="outlined"

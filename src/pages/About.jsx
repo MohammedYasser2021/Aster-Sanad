@@ -289,6 +289,14 @@ function HomePage({ language }) {
     }
   };
 
+  // أضف هذه الدالة بعد دالة handleFormSubmit
+const handlePhoneChange = (e) => {
+  // إزالة أي حروف أو رموز والاحتفاظ بالأرقام فقط
+  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+  setPhone(numericValue);
+};
+
+
   return (
     <Box sx={{ 
       minHeight: '100vh',
@@ -1421,28 +1429,31 @@ function HomePage({ language }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <TextField
-              label={currentContent.phone}
-              variant="outlined"
-              fullWidth
-              size="small"
-              sx={{
-                mb: { xs: 1.5, sm: 2 },
-                '& .MuiOutlinedInput-root': {
-                  color: '#ffffff',
-                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                  '& fieldset': { borderColor: 'rgba(100, 181, 246, 0.3)' },
-                  '&:hover fieldset': { borderColor: 'rgba(100, 181, 246, 0.5)' },
-                  '&.Mui-focused fieldset': { borderColor: '#64b5f6' },
-                },
-                '& .MuiInputLabel-root': { 
-                  color: '#b3e5fc', 
-                  fontSize: { xs: '0.85rem', sm: '0.9rem' }
-                },
-              }}
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
+<TextField
+  label={currentContent.phone}
+  variant="outlined"
+  fullWidth
+  size="small"
+  inputMode="numeric"
+   type="tel"
+  sx={{
+    mb: { xs: 1.5, sm: 2 },
+    '& .MuiOutlinedInput-root': {
+      color: '#ffffff',
+      fontSize: { xs: '0.85rem', sm: '0.9rem' },
+      '& fieldset': { borderColor: 'rgba(100, 181, 246, 0.3)' },
+      '&:hover fieldset': { borderColor: 'rgba(100, 181, 246, 0.5)' },
+      '&.Mui-focused fieldset': { borderColor: '#64b5f6' },
+    },
+    '& .MuiInputLabel-root': { 
+      color: '#b3e5fc', 
+      fontSize: { xs: '0.85rem', sm: '0.9rem' }
+    },
+  }}
+  value={phone}
+  onChange={handlePhoneChange}
+/>
+
             <TextField
               label={currentContent.email}
               variant="outlined"
